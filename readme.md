@@ -6,3 +6,55 @@ Dupla: Leticia Helena do Rosário Furlan e Roberto da Silva Espindola.
 
 ## Lista 4: Frota Espacial Polimórfica
 
+```mermaid
+classDiagram
+    direction LR
+    class App{
+        - garagem : Set<NaveEspacial>
+        + main(args : String[]) void
+    }
+    
+    class NaveEspacial{
+        # velocidadeAtual : int
+        + acelerar(inten: int) String
+        + pousar() String
+        + decolar() String
+    } 
+    
+    class NaveMineradora{
+        - energiaLaserMaxima : int
+        - energiaLaserAtual : int
+        + minerar(custo : int) String
+    }
+    
+    class NaveExploradora{
+        - holofotes : bool
+        + ligarHolofotes() String
+    }
+    
+    class NaveCargueira{
+        - capacidadeMaxima : int
+        - cargaAtual : int
+        + carregar(peso:int) String
+    }
+    
+    class NaveSentinela{
+        - radar : bool
+        + ligarRadar() String
+    }
+    
+    class Tripulada{
+        <<interface>>
+        + controlarManual() String
+    }
+    
+    class Blindada{
+        <<interface>>
+        + ativarBlindagem() String
+    }
+    
+    class Autonoma{
+        + ativarControleAutomatico() String
+    }
+
+```
