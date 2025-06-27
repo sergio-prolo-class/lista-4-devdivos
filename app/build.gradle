@@ -16,6 +16,8 @@ repositories {
 }
 
 dependencies {
+    // Dependência presente no diretório libs, arquivo  algs4.jar
+    implementation files('libs/algs4.jar')
     // Use JUnit test framework.
     testImplementation libs.junit
 
