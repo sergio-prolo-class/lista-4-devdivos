@@ -8,53 +8,81 @@ Dupla: Leticia Helena do Rosário Furlan e Roberto da Silva Espindola.
 
 ```mermaid
 classDiagram
-    direction LR
-    class App{
+    class App {
         - garagem : Set<NaveEspacial>
         + main(args : String[]) void
     }
-    
-    class NaveEspacial{
-        # velocidadeAtual : int
-        + acelerar(inten: int) String
-        + pousar() String
-        + decolar() String
-    } 
-    
-    class NaveMineradora{
-        - energiaLaserMaxima : int
-        - energiaLaserAtual : int
-        + minerar(custo : int) String
+    class NaveEspacial {
+        <<abstract>>
+        - int id
+        - int velocidadeAtual
+        - int velocidadeMaxima
+        - int tripulacaoMax
+        - int tripulacaoAtual
+        + String acelerar(int)
+        + String frear(int)
+        + String pousar()
+        + String decolar()
     }
-    
-    class NaveExploradora{
-        - holofotes : bool
-        + ligarHolofotes() String
-    }
-    
-    class NaveCargueira{
-        - capacidadeMaxima : int
-        - cargaAtual : int
-        + carregar(peso:int) String
-    }
-    
-    class NaveSentinela{
-        - radar : bool
-        + ligarRadar() String
-    }
-    
-    class Tripulada{
+
+    class Autonoma {
         <<interface>>
-        + controlarManual() String
+        + String ativarControleAutomatico()
     }
-    
-    class Blindada{
+
+    class Tripulada {
         <<interface>>
-        + ativarBlindagem() String
+        + String controleManual()
+    }
+
+    class Blindada {
+        <<interface>>
+        + String ativarBlindagem()
+        + String desativarBlindagem()
+    }
+
+    class NaveMineradora {
+        - int energiaLaserMaxima
+        - int energiaLaserAtual
+        + String minerar(int)
+        + String controleManual()
+    }
+
+    class NaveExploradora {
+        - boolean holofotesAtivos
+        + String ativarHolofotes()
+        + String desligarHolofotes()
+        + String controleManual()
+        + String pousar()
+    }
+
+    class NaveCargueira {
+        - int cargaMaxima
+        - int cargaAtual
+        - boolean blindagemAtiva
+        + String ativarBlindagem()
+        + String desativarBlindagem()
+        + String ativarControleAutomatico()
+        + String carregar(int)
+    }
+
+    class NaveSentinela {
+        - boolean radarAtivo
+        + String ativarRadar()
+        + String desativarRadar()
+        + String ativarControleAutomatico()
     }
     
-    class Autonoma{
-        + ativarControleAutomatico() String
-    }
+    App o-- NaveEspacial
+    NaveEspacial <|-- NaveMineradora
+    NaveEspacial <|-- NaveExploradora
+    NaveEspacial <|-- NaveCargueira
+    NaveEspacial <|-- NaveSentinela
+
+    NaveMineradora ..|> Tripulada
+    NaveExploradora ..|> Tripulada
+    NaveCargueira ..|> Blindada
+    NaveCargueira ..|> Autonoma
+    NaveSentinela ..|> Autonoma
 
 ```
