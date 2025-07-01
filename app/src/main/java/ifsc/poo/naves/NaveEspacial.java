@@ -1,7 +1,7 @@
 package ifsc.poo.naves;
 
 public abstract class NaveEspacial {
-    protected static int contadorId = 0;
+    protected static int contadorId = 1;
     protected int id;
     protected int velocidadeAtual;
     protected int velocidadeMaxima;
