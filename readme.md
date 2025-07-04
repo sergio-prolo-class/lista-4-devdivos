@@ -6,11 +6,18 @@ Dupla: Leticia Helena do Rosário Furlan e Roberto da Silva Espindola.
 
 ## Lista 4: Frota Espacial Polimórfica
 
+### Instruções de Uso:
+
+Para iniciar o programa digite no terminal: ```./gradlew run```.
 ```mermaid
 classDiagram
-    class App {
-        - garagem : Set<NaveEspacial>
-        + main(args : String[]) void
+class App {
+- garagem : Set<NaveEspacial>
++ main(args : String[]) void
+}
+
+    class Menu{
+        
     }
     class NaveEspacial {
         <<abstract>>
@@ -73,7 +80,8 @@ classDiagram
         + String ativarControleAutomatico()
     }
     
-    App o-- NaveEspacial
+    App <|-- Menu
+    Menu o-- NaveEspacial
     NaveEspacial <|-- NaveMineradora
     NaveEspacial <|-- NaveExploradora
     NaveEspacial <|-- NaveCargueira
@@ -84,5 +92,4 @@ classDiagram
     NaveCargueira ..|> Blindada
     NaveCargueira ..|> Autonoma
     NaveSentinela ..|> Autonoma
-
 ```
