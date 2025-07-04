@@ -2,10 +2,10 @@ package ifsc.poo.naves;
 
 public abstract class NaveEspacial {
     protected static int contadorId = 1;
-    protected int id;
+    protected final int id;
     protected int velocidadeAtual;
-    protected int velocidadeMaxima;
-    protected int tripulacaoMaxima;
+    protected final int velocidadeMaxima;
+    protected final int tripulacaoMaxima;
     protected int tripulacaoAtual;
 
     public NaveEspacial(int velocidadeMaxima, int tripulacaoMaxima) {
@@ -17,34 +17,31 @@ public abstract class NaveEspacial {
     }
 
     public String acelerar(int incremento){
-        velocidadeAtual = Math.min(velocidadeAtual+incremento, velocidadeMaxima);
-        return getTagNave() + " acelerando para " + velocidadeAtual + "Km/h";
+        velocidadeAtual = Math.min(this.velocidadeAtual+incremento, this.velocidadeMaxima);
+        return getTagNave() + " acelerando para " + velocidadeAtual + "Mm/h";
     }
 
     public String frear(int incremento){
-        velocidadeAtual = Math.max(velocidadeAtual-incremento, velocidadeMaxima);
-        return getTagNave() +" freando para " + velocidadeAtual + "Km/h";
+        velocidadeAtual = Math.max(this.velocidadeAtual-incremento, 0);
+        return getTagNave() +" freando para " + this.velocidadeAtual + "Mm/h";
     }
 
     public String pousar(){
         if(velocidadeAtual == 0){
-            return getTagNave() + " pousando";
+            return getTagNave() + " pouso autorizado. Nave pousada.";
         }
         return getTagNave() + " não pode pousar em movimento!";
     }
 
     public String decolar(){
-    return getTagNave() + " decolando";
+        return getTagNave() + " decolando";
     }
 
-    protected String getTagNave(){
+    public String getTagNave(){
         return this.getClass().getSimpleName() +  "(ID#" + String.format("%04d", id) + "):";
     }
 
-    public int getvelocidadeAtual() {
-        return velocidadeAtual;
-    }
-    public int getVelocidadeMaxima() {
-        return velocidadeMaxima;
+    public int getId() {
+        return id;
     }
 }

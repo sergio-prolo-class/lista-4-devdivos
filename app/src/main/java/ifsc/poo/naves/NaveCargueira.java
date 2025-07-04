@@ -4,48 +4,59 @@ import ifsc.poo.interfaces.Autonoma;
 import ifsc.poo.interfaces.Blindada;
 
 public class NaveCargueira extends NaveEspacial implements Blindada, Autonoma {
-    private int cargaMaxima;
+    private final int cargaMaxima;
     private int cargaAtual;
     private boolean blindagemAtiva;
 
-    public NaveCargueira(int velocidadeMaxima, int tripulacaoMax, int cargaMaxima) {
-        super(velocidadeMaxima, tripulacaoMax);
+    public NaveCargueira(int cargaMaxima) {
+        super(14, 0);
         this.cargaMaxima = cargaMaxima;
         this.cargaAtual = 0;
         this.blindagemAtiva = false;
     }
 
     public String carregar(int carga) {
-        if (cargaAtual + carga > cargaMaxima) {
+        if (this.cargaAtual + carga > this.cargaMaxima) {
             return getTagNave() + " não é possível carregar além da carga máxima.";
         }
-        cargaAtual += carga;
+        this.cargaAtual += carga;
 
-        if (cargaAtual > 0.7 * cargaMaxima) {
+        if (cargaAtual > 0.7 * (double)cargaMaxima) {
             blindagemAtiva = true;
-            return getTagNave() + " carga atual: " + cargaAtual + " - blindagem ativada.";
+            return getTagNave() + " carga de " + carga + " adicionada." + " " + "Carga atual: " + this.cargaAtual + " --- " + ativarBlindagem() + " (Ativação automática por carga elevada)";
         }
 
-        return getTagNave() + " carga atual: " + cargaAtual;
+        return getTagNave() + " carga de " + carga + " adicionada. Carga atual: " + this.cargaAtual;
     }
 
+    @Override
     public String ativarBlindagem() {
-        if (cargaAtual > 0.7 * cargaMaxima) {
-            blindagemAtiva = true;
-            return getTagNave() + " blindagem ativada.";
-        }
-        return getTagNave() + " blindagem não ativada (carga abaixo de 70%).";
+        this.blindagemAtiva = true;
+        return getTagNave() + " blindagem ativada.";
     }
 
     public String desativarBlindagem() {
         if (velocidadeAtual == 0) {
-            blindagemAtiva = false;
-            return getTagNave() + " blindagem desativada.";
+            if(this.blindagemAtiva){
+                this.blindagemAtiva = false;
+                return getTagNave() + " blindagem desativada.";
+            }
+            return getTagNave() + " blindagem já estava desativada.";
         }
-        return getTagNave() + " não é possível desativar blindagem em movimento.";
+        return getTagNave() + " não é possível desativar a blindagem em movimento.";
     }
 
+    @Override
     public String ativarControleAutomatico() {
         return getTagNave() + " controle automático ativado.";
+    }
+
+    @Override
+    public String pousar() {
+        String mensagemPouso = super.pousar();
+        if (this.velocidadeAtual == 0) {
+            mensagemPouso += "\n" + desativarBlindagem();
+        }
+        return mensagemPouso;
     }
 }

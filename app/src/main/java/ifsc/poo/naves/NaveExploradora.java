@@ -8,7 +8,7 @@ public class NaveExploradora extends NaveEspacial implements Tripulada, Blindada
     private boolean blindagemAtiva;
 
     public NaveExploradora(int velocidadeMaxima, int tripulacaoMax) {
-        super(velocidadeMaxima, ajustarTripulacao(tripulacaoMax));
+        super(14, ajustarTripulacao(tripulacaoMax));
         this.holofotesAtivos = false;
         this.blindagemAtiva = false;
     }
@@ -25,22 +25,24 @@ public class NaveExploradora extends NaveEspacial implements Tripulada, Blindada
     }
 
     public String ativarHolofotes() {
-        holofotesAtivos = true;
+        this.holofotesAtivos = true;
         return getTagNave() + " holofotes ativados.";
     }
 
     public String desligarHolofotes() {
-        holofotesAtivos = false;
+        this.holofotesAtivos = false;
         return getTagNave() + " holofotes desligados.";
     }
 
     @Override
     public String pousar() {
-        if (velocidadeAtual == 0) {
-            desligarHolofotes();
-            return getTagNave() + " pousando com holofotes desligados.";
+        String mensagemPouso = super.pousar();
+        if (this.velocidadeAtual == 0) {
+            if (this.holofotesAtivos) {
+                mensagemPouso += "\n" + desligarHolofotes() + " (Desligamento automático ao pousar)";
+            }
         }
-        return getTagNave() + " não pode pousar em movimento!";
+        return mensagemPouso;
     }
 
     @Override
@@ -50,7 +52,7 @@ public class NaveExploradora extends NaveEspacial implements Tripulada, Blindada
 
     @Override
     public String ativarBlindagem() {
-        blindagemAtiva = true;
+        this.blindagemAtiva = true;
         return getTagNave() + " blindagem leve ativada para reconhecimento em campo.";
     }
 

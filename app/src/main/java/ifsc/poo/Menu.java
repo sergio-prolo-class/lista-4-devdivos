@@ -2,88 +2,101 @@ package ifsc.poo;
 
 import ifsc.poo.interfaces.*;
 import ifsc.poo.naves.*;
-
 import java.util.LinkedHashSet;
-import java.util.Scanner;
+import java.util.Set;
 
 public class Menu {
 
-    private final LinkedHashSet<NaveEspacial> garagem = new LinkedHashSet<>();
-
-    public Menu() {
-        inicializarNaves();
-    }
-
-    private void inicializarNaves() {
-        garagem.add(new NaveMineradora(15, 100));
-        garagem.add(new NaveExploradora(16, 3));
-        garagem.add(new NaveCargueira(14, 0, 1000));
-        garagem.add(new NaveSentinela(14, 0));
-    }
+    private final Set<NaveEspacial> garagem = new LinkedHashSet<>();
 
     public void executar() {
-        Scanner sc = new Scanner(System.in);
-        int opcao;
+        System.out.println("--- Iniciando Simulação da Frota Espacial ---");
 
-        do {
-            System.out.println("\n===== MENU FROTA ESPACIAL =====");
-            System.out.println("1. Simular ações das naves");
-            System.out.println("0. Sair");
-            System.out.print("Escolha uma opção: ");
-            opcao = sc.nextInt();
+        inicializarGaragem();
 
-            switch (opcao) {
-                case 1 -> simularAcoes();
-                case 0 -> System.out.println("Encerrando simulação...");
-                default -> System.out.println("Opção inválida.");
-            }
-        } while (opcao != 0);
+        System.out.println("\n--- Naves na Garagem ---");
+        for (NaveEspacial nave : garagem) {
+            System.out.println(nave.getTagNave());
+        }
 
-        sc.close();
+        System.out.println("\n--- Executando Operações com a Frota (Usando Polimorfismo) ---");
+        operarFrotas();
+
+        System.out.println("\n--- Simulação Finalizada ---");
     }
 
-    private void simularAcoes() {
+    private void inicializarGaragem() {
+        garagem.add(new NaveCargueira(2000));
+
+        garagem.add(new NaveMineradora(18, 1000)); // Velocidade 18 (entre 12-20)
+
+        garagem.add(new NaveExploradora(14,4)); // Tripulação 4 (entre 2-10)
+
+        garagem.add(new NaveSentinela(15)); // Velocidade 15 (entre 10-20)
+    }
+
+    private void operarFrotas() {
         for (NaveEspacial nave : garagem) {
-            System.out.println("// Polimorfismo:");
+            System.out.println("\n========================================================");
+            System.out.println(">>> OPERANDO: " + nave.getTagNave());
+            System.out.println("========================================================");
+
+            // Usando polimorfismo na instrução abaixo
+            // Chamando o metodo 'decolar' da superclasse 'NaveEspacial' em um objeto
+            // que pode ser de qualquer uma das subclasses.
+            // Ações comuns
             System.out.println(nave.decolar());
-            System.out.println(nave.acelerar(5));
-            System.out.println(nave.frear(3));
+            // Usando polimorfismo na instrução abaixo
+            System.out.println(nave.acelerar(13));
+
+            // Teste de capacidades (Interfaces)
+            // Usando polimorfismo na instrução abaixo
+            // Verificamos se o objeto 'NaveEspacial' tem a "forma" da interface 'Tripulada'.
+            if (nave instanceof Tripulada) {
+                // Se tiver, podemos fazer o "cast" e chamar o metodo da interface.
+                System.out.println(((Tripulada) nave).ativarControleManual());
+            }
+            // Usando polimorfismo na instrução abaixo
+            if (nave instanceof Autonoma) {
+                System.out.println(((Autonoma) nave).ativarControleAutomatico());
+            }
+            // Usando polimorfismo na instrução abaixo
+            if (nave instanceof Blindada) {
+                System.out.println(((Blindada) nave).ativarBlindagem());
+            }
+
+            // Teste de métodos exclusivos (Classes Concretas)
+            // Usando polimorfismo na instrução abaixo
+            // Verificamos se o objeto 'NaveEspacial' é, na verdade, uma 'NaveCargueira'.
+            if (nave instanceof NaveCargueira) {
+                // Se for, podemos fazer o "cast" para acessar seus métodos exclusivos.
+                System.out.println(((NaveCargueira) nave).carregar(1500)); // Carga > 70% para testar blindagem auto
+            }
+
+            // Usando polimorfismo na instrução abaixo
+            if (nave instanceof NaveMineradora) {
+                System.out.println(((NaveMineradora) nave).minerar(100)); // Deve falhar (velocidade alta)
+                System.out.println(nave.frear(12)); // Reduz velocidade para 1 // Chamada polimórfica padrão
+                System.out.println(((NaveMineradora) nave).minerar(100)); // Deve funcionar
+            }
+
+            // Usando polimorfismo na instrução abaixo
+            if (nave instanceof NaveExploradora) {
+                System.out.println(((NaveExploradora) nave).ativarHolofotes());
+            }
+
+            // Usando polimorfismo na instrução abaixo
+            if (nave instanceof NaveSentinela) {
+                System.out.println(((NaveSentinela) nave).ativarRadar()); // Deve falhar (velocidade alta)
+                System.out.println(nave.frear(5)); // Reduz velocidade para 8
+                System.out.println(((NaveSentinela) nave).ativarRadar()); // Deve funcionar
+            }
+
+            // Usando polimorfismo na instrução abaixo
+            // O método 'pousar' é chamado. Se a subclasse (ex: NaveExploradora)
+            // tiver uma versão sobrescrita (@Override), essa versão será executada.
+            System.out.println(nave.frear(20));
             System.out.println(nave.pousar());
-            System.out.println();
-
-            if (nave instanceof Tripulada t) {
-                System.out.println(t.ativarControleManual());
-            }
-
-            if (nave instanceof Autonoma a) {
-                System.out.println(a.ativarControleAutomatico());
-            }
-
-            if (nave instanceof Blindada b) {
-                System.out.println(b.ativarBlindagem());
-                System.out.println(b.desativarBlindagem());
-            }
-
-            if (nave instanceof NaveMineradora m) {
-                System.out.println(m.minerar(20));
-            }
-
-            if (nave instanceof NaveExploradora e) {
-                System.out.println(e.ativarHolofotes());
-                System.out.println(e.pousar());
-            }
-
-            if (nave instanceof NaveCargueira c) {
-                System.out.println(c.carregar(800));
-                System.out.println(c.desativarBlindagem());
-            }
-
-            if (nave instanceof NaveSentinela s) {
-                System.out.println(s.ativarRadar());
-                System.out.println(s.desativarRadar());
-            }
-
-            System.out.println("--------------------------------------------------");
         }
     }
 }
