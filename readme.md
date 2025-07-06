@@ -13,13 +13,14 @@ Para iniciar o programa digite no terminal: ```./gradlew run```.
 classDiagram
 class App {
 - garagem : Set<NaveEspacial>
++ executar() void
++ inicializarGaragem() void
++ operarFrota() void
 + main(args : String[]) void
 }
 
-    class Menu{
-        
-    }
     class NaveEspacial {
+
         <<abstract>>
         - int id
         - int velocidadeAtual
@@ -80,13 +81,11 @@ class App {
         + String ativarControleAutomatico()
     }
     
-    App <|-- Menu
-    Menu o-- NaveEspacial
+    App "1" o-- NaveEspacial 
     NaveEspacial <|-- NaveMineradora
     NaveEspacial <|-- NaveExploradora
     NaveEspacial <|-- NaveCargueira
     NaveEspacial <|-- NaveSentinela
-
     NaveMineradora ..|> Tripulada
     NaveExploradora ..|> Tripulada
     NaveCargueira ..|> Blindada
