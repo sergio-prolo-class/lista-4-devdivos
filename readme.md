@@ -11,6 +11,8 @@ Dupla: Leticia Helena do Rosário Furlan e Roberto da Silva Espindola.
 Para iniciar o programa digite no terminal: ```./gradlew run```.
 ```mermaid
 classDiagram
+
+direction LR 
 class App {
 - garagem : Set<NaveEspacial>
 + executar() void
@@ -22,11 +24,11 @@ class App {
     class NaveEspacial {
 
         <<abstract>>
-        - int id
-        - int velocidadeAtual
-        - int velocidadeMaxima
-        - int tripulacaoMax
-        - int tripulacaoAtual
+        # int id
+        # int velocidadeAtual
+        # int velocidadeMaxima
+        # int tripulacaoMax
+        # int tripulacaoAtual
         + String acelerar(int)
         + String frear(int)
         + String pousar()
@@ -81,12 +83,13 @@ class App {
         + String ativarControleAutomatico()
     }
     
-    App "1" o-- NaveEspacial 
+    App "1" *-- NaveEspacial 
     NaveEspacial <|-- NaveMineradora
     NaveEspacial <|-- NaveExploradora
     NaveEspacial <|-- NaveCargueira
     NaveEspacial <|-- NaveSentinela
     NaveMineradora ..|> Tripulada
+    NaveExploradora ..|> Blindada
     NaveExploradora ..|> Tripulada
     NaveCargueira ..|> Blindada
     NaveCargueira ..|> Autonoma
