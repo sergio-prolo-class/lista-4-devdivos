@@ -79,7 +79,6 @@ class App {
     class NaveSentinela {
         - boolean radarAtivo
         + String ativarRadar()
-        + String desativarRadar()
         + String ativarControleAutomatico()
     }
     

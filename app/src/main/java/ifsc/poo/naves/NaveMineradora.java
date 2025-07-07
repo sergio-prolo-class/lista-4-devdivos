@@ -6,18 +6,9 @@ public class NaveMineradora extends NaveEspacial implements Tripulada {
     private int energiaLaserAtual;
 
     public NaveMineradora(int velocidadeMaxima, int energiaLaserMaxima) {
-        super(ajustarVelocidade(velocidadeMaxima), 5);
+        super(velocidadeMaxima, 5);
         this.energiaLaserMaxima = energiaLaserMaxima;
         this.energiaLaserAtual = energiaLaserMaxima;
-    }
-
-    private static int ajustarVelocidade(int v) {
-        int velocidadeAjustada = Math.max(12, v); // Garante mínimo de 12
-        velocidadeAjustada = Math.min(20, velocidadeAjustada); // Garante máximo de 20
-        if (velocidadeAjustada != v) {
-            System.out.println("Velocidade para NaveMineradora ajustada para " + velocidadeAjustada + " (limite é 12-20).");
-        }
-        return velocidadeAjustada;
     }
 
     public String minerar(int custo) {
