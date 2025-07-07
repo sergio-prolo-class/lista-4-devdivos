@@ -23,7 +23,7 @@ public class NaveCargueira extends NaveEspacial implements Blindada, Autonoma {
 
         if (cargaAtual > 0.7 * (double)cargaMaxima) {
             blindagemAtiva = true;
-            return getTagNave() + " carga de " + carga + " adicionada." + " " + "Carga atual: " + this.cargaAtual + " --- " + ativarBlindagem() + " (Ativação automática por carga elevada)";
+            return getTagNave() + " carga de " + carga + " adicionada." + " " + "Carga atual: " + this.cargaAtual + "\n" + ativarBlindagem() + " (Ativação automática por carga elevada)";
         }
 
         return getTagNave() + " carga de " + carga + " adicionada. Carga atual: " + this.cargaAtual;
